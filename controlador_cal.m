@@ -103,3 +103,5 @@ hold on;
 plot(real(z_d), imag(z_d), 'rx', 'MarkerSize', 10, 'LineWidth', 2);
 plot(real(z_d_conj), imag(z_d_conj), 'rx', 'MarkerSize', 10, 'LineWidth', 2);
 title('Lugar das Raízes com Polos Desejados');
+
+
