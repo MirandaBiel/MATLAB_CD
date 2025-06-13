@@ -5,7 +5,7 @@ a = 11.661;
 b = 1.515;
 Mp = 3.25;     % Sobressinal (%)
 tp = 0.15;     % Tempo de pico (s)
-N = 20;        % Número de amostras por ciclo
+N = 50;        % Número de amostras por ciclo
 
 % 2. Cálculo de parâmetros do sistema de 2ª ordem
 zeta = sqrt(log(Mp/100)^2 / (pi^2 + log(Mp/100)^2));
@@ -80,7 +80,7 @@ Gc = K * (z_tf - z_c) / (z_tf - p_c);
 T_total = feedback(Gc*Gz, 1);
 
 % 12. Simulações
-t = 0:T:5;
+t = 0:T:2;
 
 % Degrau
 figure;
