@@ -28,7 +28,7 @@ G_z = c2d(G_s, T, 'zoh');
 
 % 6. Coeficientes da planta G(z)
 [numGz, denGz] = tfdata(G_z, 'v');
-Gz = G_z;
+Gz = G_z
 
 % 7. Cancelamento de polo (usuário escolhe)
 p1 = roots(denGz);   % Polos da planta em z
@@ -49,15 +49,14 @@ z_c = p1(idx);     % Zero do controlador cancela esse polo
 z = z_d;           % z_d é o polo desejado
 
 % Soma dos ângulos dos polos e subtração do zero (cancelamento)
-theta_G = sum(angle(z - p1)) - angle(z - z_c);
+theta_G = sum(angle(z - z1)) - sum(angle(z - p1)) + angle(z - z_c);
 phi_required = pi - theta_G;
 
 % Cálculo do polo do controlador
 imag_z = imag(z);
 real_z = real(z);
 theta_p = phi_required;
-p_c = real_z - imag_z / tan(theta_p) % z - p_c forma o ângulo necessário
-p_c = 0.429;
+p_c = real_z - imag_z / tan(theta_p);  % z - p_c forma o ângulo necessário
 
 % 9. Condição de módulo: cálculo do ganho K
 num_eval = abs(polyval(numGz, z) * (z - z_c));
