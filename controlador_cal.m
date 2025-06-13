@@ -52,13 +52,13 @@ z = z_d;           % z_d é o polo desejado
 theta_G = sum(angle(z - z1)) - sum(angle(z - p1))      
 
 % Calcula o ângulo que o controlador deve possuir
-theta_Gc = theta_G - pi        
+theta_Gc = pi - theta_G        
 
 % Calcula o ângulo do zero do controlador
 theta_z_c = angle(z - z_c)       
 
 % Soma dos ângulos dos polos e subtração do zero (cancelamento)
-phi_required = theta_z_c + theta_Gc
+phi_required = theta_z_c - theta_Gc
 
 
 % Cálculo do polo do controlador
