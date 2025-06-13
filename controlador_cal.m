@@ -10,35 +10,45 @@ N = 20;        % Número de amostras por ciclo
 % 2. Cálculo de parâmetros do sistema de 2ª ordem
 zeta = sqrt(log(Mp/100)^2 / (pi^2 + log(Mp/100)^2));
 wn = pi / (tp * sqrt(1 - zeta^2));
-wd = wn * sqrt(1 - zeta^2)
-sigma = zeta * wn
+wd = wn * sqrt(1 - zeta^2);
+sigma = zeta * wn;
 
 % 3. Cálculo do tempo de amostragem
-T = 2*pi / (N * wd)
+T = 2*pi / (N * wd);
 
 % 4. Polos desejados no plano z
 s_d = -sigma + 1j*wd;
-z_d = exp(s_d*T);   % Mapeamento s -> z
-z_d_conj = conj(z_d)
+z_d = exp(s_d*T);         % Mapeamento s -> z
+z_d_conj = conj(z_d);
 
 % 5. Planta contínua e discretização
 s = tf('s');
 G_s = b / (s*(s+a));
-G_z = c2d(G_s, T, 'zoh')
+G_z = c2d(G_s, T, 'zoh');
 
 % 6. Coeficientes da planta G(z)
 [numGz, denGz] = tfdata(G_z, 'v');
-Gz = G_z
+Gz = G_z;
 
-% 7. Cancelamento de polo (escolha do zero do controlador)
-p1 = roots(denGz);   % polos da planta em z
-z_c = p1(1);         % zero do controlador cancela esse polo
+% 7. Cancelamento de polo (usuário escolhe)
+p1 = roots(denGz);   % Polos da planta em z
+
+fprintf('Polos da planta em z:\n');
+for i = 1:length(p1)
+    fprintf('Polo %d: %.4f + %.4fi\n', i, real(p1(i)), imag(p1(i)));
+end
+
+idx = input('Digite o número do polo que deseja cancelar (1 ou 2): ');
+if idx < 1 || idx > length(p1)
+    error('Polo inválido. Escolha um índice entre 1 e %d.', length(p1));
+end
+z_c = p1(idx);     % Zero do controlador cancela esse polo
 
 % 8. Condição de fase: cálculo do polo do controlador
-z = z_d % z_d é o polo desejado
+z = z_d;           % z_d é o polo desejado
 
-% Ângulos das contribuições dos pólos e zero existentes
-theta_G = angle(z - p1(1)) + angle(z - p1(2)) - angle(z - z_c);
+% Soma dos ângulos dos polos e subtração do zero (cancelamento)
+theta_G = sum(angle(z - p1)) - angle(z - z_c);
 phi_required = pi - theta_G;
 
 % Cálculo do polo do controlador
@@ -54,7 +64,7 @@ K = den_eval / num_eval;
 
 % 10. Controlador digital Gc(z)
 z_tf = tf('z', T);
-Gc = K * (z_tf - z_c) / (z_tf - p_c)
+Gc = K * (z_tf - z_c) / (z_tf - p_c);
 
 % 11. Sistema em malha fechada
 T_total = feedback(Gc*Gz, 1);
