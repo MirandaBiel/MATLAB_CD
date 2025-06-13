@@ -48,16 +48,24 @@ z_c = p1(idx);     % Zero do controlador cancela esse polo
 % 8. Condição de fase: cálculo do polo do controlador
 z = z_d;           % z_d é o polo desejado
 
+% Calcula o ângulo da planta
+theta_G = sum(angle(z - z1)) - sum(angle(z - p1))      
+
+% Calcula o ângulo que o controlador deve possuir
+theta_Gc = theta_G - pi        
+
+% Calcula o ângulo do zero do controlador
+theta_z_c = angle(z - z_c)       
+
 % Soma dos ângulos dos polos e subtração do zero (cancelamento)
-theta_G = sum(angle(z - p1)) - angle(z - z_c);
-phi_required = pi - theta_G;
+phi_required = theta_z_c + theta_Gc
+
 
 % Cálculo do polo do controlador
 imag_z = imag(z);
 real_z = real(z);
 theta_p = phi_required;
 p_c = real_z - imag_z / tan(theta_p) % z - p_c forma o ângulo necessário
-p_c = 0.429;
 
 % 9. Condição de módulo: cálculo do ganho K
 num_eval = abs(polyval(numGz, z) * (z - z_c));
