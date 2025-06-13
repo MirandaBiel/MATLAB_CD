@@ -1,8 +1,8 @@
 clc; clear; close all;
 
 % 1. Parâmetros fornecidos
-a = 11.661;
-b = 1.515;
+a = 14.1465;
+b = 4.0280;
 Mp = 3.25;     % Sobressinal (%)
 tp = 0.15;     % Tempo de pico (s)
 N = 50;        % Número de amostras por ciclo
@@ -74,7 +74,7 @@ K = den_eval / num_eval;
 
 % 10. Controlador digital Gc(z)
 z_tf = tf('z', T);
-Gc = K * (z_tf - z_c) / (z_tf - p_c);
+Gc = K * (z_tf - z_c) / (z_tf - p_c)
 
 % 11. Sistema em malha fechada
 T_total = feedback(Gc*Gz, 1);
