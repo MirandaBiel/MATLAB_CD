@@ -2,8 +2,8 @@
 load('variaveis.mat')
 
 % Extração dos dados
-tempo = valores_w_medidos(:, 1);    % Tempo
-w_medido = valores_w_medidos(:, 2); % Valores medidos
+tempo = wl(:, 1);        % Tempo
+w_medido = wl(:, 2);     % Valores medidos (segunda coluna)
 
 % Função de resposta teórica sem atraso variável (apenas [b, a])
 modelo = @(params, t) (4 * params(1) / params(2)) .* ...
