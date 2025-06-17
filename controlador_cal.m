@@ -1,11 +1,11 @@
-clc; clear; close all;
+
 
 % 1. Parâmetros fornecidos
 a = 14.1465;
 b = 4.0280;
-Mp = 3.25;     % Sobressinal (%)
-tp = 0.15;     % Tempo de pico (s)
-N = 50;        % Número de amostras por ciclo
+Mp = 4;     % Sobressinal (%)
+tp = 0.25;     % Tempo de pico (s)
+N = 20;        % Número de amostras por ciclo
 
 % 2. Cálculo de parâmetros do sistema de 2ª ordem
 zeta = sqrt(log(Mp/100)^2 / (pi^2 + log(Mp/100)^2));
@@ -15,6 +15,7 @@ sigma = zeta * wn;
 
 % 3. Cálculo do tempo de amostragem
 T = 2*pi / (N * wd);
+st = T;
 
 % 4. Polos desejados no plano z
 s_d = -sigma + 1j*wd;
@@ -67,14 +68,14 @@ real_z = real(z);
 theta_p = phi_required;
 p_c = real_z - imag_z / tan(theta_p) % z - p_c forma o ângulo necessário
 
-% 9. Condição de módulo: cálculo do ganho K
+% 9. Condição de módulo: cálculo do ganho K_control
 num_eval = abs(polyval(numGz, z) * (z - z_c));
 den_eval = abs(polyval(denGz, z) * (z - p_c));
-K = den_eval / num_eval;
+K_control = den_eval / num_eval;
 
 % 10. Controlador digital Gc(z)
 z_tf = tf('z', T);
-Gc = K * (z_tf - z_c) / (z_tf - p_c)
+Gc = K_control * (z_tf - z_c) / (z_tf - p_c)
 
 % 11. Sistema em malha fechada
 T_total = feedback(Gc*Gz, 1);

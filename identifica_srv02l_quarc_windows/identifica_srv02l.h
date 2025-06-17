@@ -3,9 +3,9 @@
  *
  * Real-Time Workshop code generation for Simulink model "identifica_srv02l.mdl".
  *
- * Model Version              : 1.260
+ * Model Version              : 1.261
  * Real-Time Workshop version : 7.2  (R2008b)  04-Aug-2008
- * C source code generated on : Thu Jun 05 07:12:58 2025
+ * C source code generated on : Tue Jun 17 05:57:22 2025
  */
 #ifndef RTW_HEADER_identifica_srv02l_h_
 #define RTW_HEADER_identifica_srv02l_h_
@@ -802,6 +802,7 @@ typedef struct {
   real_T DACBSaturationV;              /* '<S5>/DACB Saturation (V)' */
   real_T AmplifierGainVV;              /* '<S5>/Amplifier  Gain (V//V)' */
   real_T ZeroOrderHold1;               /* '<Root>/Zero-Order Hold1' */
+  real_T TransferFcn;                  /* '<S3>/Transfer Fcn' */
   real_T TransportDelay;               /* '<S3>/Transport Delay' */
   real_T Integrator;                   /* '<S3>/Integrator' */
   real_T SwitchControl;                /* '<S1>/SwitchControl' */
@@ -809,7 +810,6 @@ typedef struct {
   real_T DACBSaturationV_p;            /* '<S6>/DACB Saturation (V)' */
   real_T AmplifierGainVV_n;            /* '<S6>/Amplifier  Gain (V//V)' */
   real_T AmplifierSaturationV_e;       /* '<S6>/Amplifier  Saturation (V)' */
-  real_T TransferFcn;                  /* '<S3>/Transfer Fcn' */
   real_T PotentiometerCalibrationradV; /* '<S4>/Potentiometer Calibration  (rad//V)' */
   real_T StepAmplitude;                /* '<Root>/Step Amplitude' */
   real_T StepAmplitude_j;              /* '<Root>/Step Amplitude ' */
@@ -881,22 +881,22 @@ typedef struct {
 /* Continuous states (auto storage) */
 typedef struct {
   real_T EncoderHighPassFilter_CSTATE[2];/* '<S4>/Encoder High-Pass Filter' */
-  real_T Integrator_CSTATE;            /* '<S3>/Integrator' */
   real_T TransferFcn_CSTATE;           /* '<S3>/Transfer Fcn' */
+  real_T Integrator_CSTATE;            /* '<S3>/Integrator' */
 } ContinuousStates_identifica_srv;
 
 /* State derivatives (auto storage) */
 typedef struct {
   real_T EncoderHighPassFilter_CSTATE[2];/* '<S4>/Encoder High-Pass Filter' */
-  real_T Integrator_CSTATE;            /* '<S3>/Integrator' */
   real_T TransferFcn_CSTATE;           /* '<S3>/Transfer Fcn' */
+  real_T Integrator_CSTATE;            /* '<S3>/Integrator' */
 } StateDerivatives_identifica_srv;
 
 /* State disabled  */
 typedef struct {
   boolean_T EncoderHighPassFilter_CSTATE[2];/* '<S4>/Encoder High-Pass Filter' */
-  boolean_T Integrator_CSTATE;         /* '<S3>/Integrator' */
   boolean_T TransferFcn_CSTATE;        /* '<S3>/Transfer Fcn' */
+  boolean_T Integrator_CSTATE;         /* '<S3>/Integrator' */
 } StateDisabled_identifica_srv02l;
 
 #ifndef ODE1_INTG
@@ -1029,6 +1029,12 @@ struct Parameters_identifica_srv02l_ {
   real_T AmplifierGainVV_Gain;         /* Expression: -K_AMP
                                         * '<S5>/Amplifier  Gain (V//V)'
                                         */
+  real_T TransferFcn_A;                /* Computed Parameter: A
+                                        * '<S3>/Transfer Fcn'
+                                        */
+  real_T TransferFcn_C;                /* Computed Parameter: C
+                                        * '<S3>/Transfer Fcn'
+                                        */
   real_T TransportDelay_Delay;         /* Expression: L
                                         * '<S3>/Transport Delay'
                                         */
@@ -1056,12 +1062,6 @@ struct Parameters_identifica_srv02l_ {
   real_T AmplifierSaturationV_LowerSat_i;/* Expression: -VMAX_AMP
                                           * '<S6>/Amplifier  Saturation (V)'
                                           */
-  real_T TransferFcn_A;                /* Computed Parameter: A
-                                        * '<S3>/Transfer Fcn'
-                                        */
-  real_T TransferFcn_C;                /* Computed Parameter: C
-                                        * '<S3>/Transfer Fcn'
-                                        */
   real_T StepAmplitude_Gain;           /* Expression: 4
                                         * '<Root>/Step Amplitude '
                                         */

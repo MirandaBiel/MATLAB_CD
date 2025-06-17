@@ -3,9 +3,9 @@
  *
  * Real-Time Workshop code generation for Simulink model "identifica_srv02l.mdl".
  *
- * Model Version              : 1.260
+ * Model Version              : 1.261
  * Real-Time Workshop version : 7.2  (R2008b)  04-Aug-2008
- * C source code generated on : Thu Jun 05 07:12:58 2025
+ * C source code generated on : Tue Jun 17 05:57:22 2025
  */
 
 #include "identifica_srv02l.h"
@@ -441,6 +441,10 @@ void identifica_srv02l_output0(int_T tid) /* Sample time: [0.0s, 0.0s] */
       identifica_srv02l_P.AmplifierGainVV_Gain *
       identifica_srv02l_B.DACBSaturationV;
 
+    /* TransferFcn Block: '<S3>/Transfer Fcn' */
+    identifica_srv02l_B.TransferFcn = identifica_srv02l_P.TransferFcn_C*
+      identifica_srv02l_X.TransferFcn_CSTATE;
+
     /* TransportDelay Block: '<S3>/Transport Delay' */
     {
       real_T **uBuffer = (real_T**)
@@ -449,18 +453,21 @@ void identifica_srv02l_output0(int_T tid) /* Sample time: [0.0s, 0.0s] */
         &identifica_srv02l_DWork.TransportDelay_PWORK.TUbufferPtrs[1];
       real_T simTime = identifica_srv02l_M->Timing.t[0];
       real_T tMinusDelay = simTime - identifica_srv02l_P.TransportDelay_Delay;
-      identifica_srv02l_B.TransportDelay = rt_TDelayInterpolate(
-        tMinusDelay,
-        0.0,
-        *tBuffer,
-        *uBuffer,
-        identifica_srv02l_DWork.TransportDelay_IWORK.CircularBufSize,
-        &identifica_srv02l_DWork.TransportDelay_IWORK.Last,
-        identifica_srv02l_DWork.TransportDelay_IWORK.Tail,
-        identifica_srv02l_DWork.TransportDelay_IWORK.Head,
-        identifica_srv02l_P.TransportDelay_InitOutput,
-        0,
-        0);
+      if (identifica_srv02l_P.TransportDelay_Delay == 0.0)
+        identifica_srv02l_B.TransportDelay = identifica_srv02l_B.TransferFcn;
+      else
+        identifica_srv02l_B.TransportDelay = rt_TDelayInterpolate(
+          tMinusDelay,
+          0.0,
+          *tBuffer,
+          *uBuffer,
+          identifica_srv02l_DWork.TransportDelay_IWORK.CircularBufSize,
+          &identifica_srv02l_DWork.TransportDelay_IWORK.Last,
+          identifica_srv02l_DWork.TransportDelay_IWORK.Tail,
+          identifica_srv02l_DWork.TransportDelay_IWORK.Head,
+          identifica_srv02l_P.TransportDelay_InitOutput,
+          0,
+          0);
     }
 
     if (rtmIsMajorTimeStep(identifica_srv02l_M)) {
@@ -502,10 +509,6 @@ void identifica_srv02l_output0(int_T tid) /* Sample time: [0.0s, 0.0s] */
     identifica_srv02l_B.AmplifierSaturationV_e = rt_SATURATE(currentTime,
       identifica_srv02l_P.AmplifierSaturationV_LowerSat_i,
       identifica_srv02l_P.AmplifierSaturationV_UpperSat_n);
-
-    /* TransferFcn Block: '<S3>/Transfer Fcn' */
-    identifica_srv02l_B.TransferFcn = identifica_srv02l_P.TransferFcn_C*
-      identifica_srv02l_X.TransferFcn_CSTATE;
   }
 
   /* tid is required for a uniform function interface.
@@ -584,10 +587,6 @@ void identifica_srv02l_derivatives(void)
       identifica_srv02l_X.EncoderHighPassFilter_CSTATE[0];
   }
 
-  /* Derivatives for Integrator: '<S3>/Integrator' */
-  ((StateDerivatives_identifica_srv *) identifica_srv02l_M->ModelData.derivs)
-    ->Integrator_CSTATE = identifica_srv02l_B.TransportDelay;
-
   /* TransferFcn Block: '<S3>/Transfer Fcn' */
   {
     ((StateDerivatives_identifica_srv *) identifica_srv02l_M->ModelData.derivs
@@ -596,6 +595,10 @@ void identifica_srv02l_derivatives(void)
       )->TransferFcn_CSTATE += (identifica_srv02l_P.TransferFcn_A)*
       identifica_srv02l_X.TransferFcn_CSTATE;
   }
+
+  /* Derivatives for Integrator: '<S3>/Integrator' */
+  ((StateDerivatives_identifica_srv *) identifica_srv02l_M->ModelData.derivs)
+    ->Integrator_CSTATE = identifica_srv02l_B.TransportDelay;
 }
 
 /* Model output function for TID2 */
@@ -738,10 +741,10 @@ void identifica_srv02l_initialize(boolean_T firstTime)
   identifica_srv02l_M->Timing.stepSize2 = 1.0;
 
   /* external mode info */
-  identifica_srv02l_M->Sizes.checksums[0] = (1595854015U);
-  identifica_srv02l_M->Sizes.checksums[1] = (717270215U);
-  identifica_srv02l_M->Sizes.checksums[2] = (4274344300U);
-  identifica_srv02l_M->Sizes.checksums[3] = (124495048U);
+  identifica_srv02l_M->Sizes.checksums[0] = (90425629U);
+  identifica_srv02l_M->Sizes.checksums[1] = (4150723548U);
+  identifica_srv02l_M->Sizes.checksums[2] = (3048048823U);
+  identifica_srv02l_M->Sizes.checksums[3] = (1365482804U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
@@ -785,6 +788,7 @@ void identifica_srv02l_initialize(boolean_T firstTime)
     identifica_srv02l_B.DACBSaturationV = 0.0;
     identifica_srv02l_B.AmplifierGainVV = 0.0;
     identifica_srv02l_B.ZeroOrderHold1 = 0.0;
+    identifica_srv02l_B.TransferFcn = 0.0;
     identifica_srv02l_B.TransportDelay = 0.0;
     identifica_srv02l_B.Integrator = 0.0;
     identifica_srv02l_B.SwitchControl = 0.0;
@@ -792,7 +796,6 @@ void identifica_srv02l_initialize(boolean_T firstTime)
     identifica_srv02l_B.DACBSaturationV_p = 0.0;
     identifica_srv02l_B.AmplifierGainVV_n = 0.0;
     identifica_srv02l_B.AmplifierSaturationV_e = 0.0;
-    identifica_srv02l_B.TransferFcn = 0.0;
     identifica_srv02l_B.PotentiometerCalibrationradV = 0.0;
     identifica_srv02l_B.StepAmplitude = 0.0;
     identifica_srv02l_B.StepAmplitude_j = 0.0;
@@ -1019,11 +1022,11 @@ void MdlInitialize(void)
   identifica_srv02l_X.EncoderHighPassFilter_CSTATE[0] = 0.0;
   identifica_srv02l_X.EncoderHighPassFilter_CSTATE[1] = 0.0;
 
-  /* InitializeConditions for Integrator: '<S3>/Integrator' */
-  identifica_srv02l_X.Integrator_CSTATE = identifica_srv02l_P.Integrator_IC;
-
   /* TransferFcn Block: '<S3>/Transfer Fcn' */
   identifica_srv02l_X.TransferFcn_CSTATE = 0.0;
+
+  /* InitializeConditions for Integrator: '<S3>/Integrator' */
+  identifica_srv02l_X.Integrator_CSTATE = identifica_srv02l_P.Integrator_IC;
 }
 
 void MdlStart(void)

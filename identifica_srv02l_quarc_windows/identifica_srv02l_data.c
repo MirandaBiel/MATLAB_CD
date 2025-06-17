@@ -3,9 +3,9 @@
  *
  * Real-Time Workshop code generation for Simulink model "identifica_srv02l.mdl".
  *
- * Model Version              : 1.260
+ * Model Version              : 1.261
  * Real-Time Workshop version : 7.2  (R2008b)  04-Aug-2008
- * C source code generated on : Thu Jun 05 07:12:58 2025
+ * C source code generated on : Tue Jun 17 05:57:22 2025
  */
 
 #include "identifica_srv02l.h"
@@ -89,7 +89,11 @@ Parameters_identifica_srv02l identifica_srv02l_P = {
                                         */
   -1.0,                                /* AmplifierGainVV_Gain : '<S5>/Amplifier  Gain (V//V)'
                                         */
-  0.016,                               /* TransportDelay_Delay : '<S3>/Transport Delay'
+  -1.0,                                /* TransferFcn_A : '<S3>/Transfer Fcn'
+                                        */
+  1.0,                                 /* TransferFcn_C : '<S3>/Transfer Fcn'
+                                        */
+  0.0,                                 /* TransportDelay_Delay : '<S3>/Transport Delay'
                                         */
   0.0,                                 /* TransportDelay_InitOutput : '<S3>/Transport Delay'
                                         */
@@ -106,10 +110,6 @@ Parameters_identifica_srv02l identifica_srv02l_P = {
   24.0,                                /* AmplifierSaturationV_UpperSat_n : '<S6>/Amplifier  Saturation (V)'
                                         */
   -24.0,                               /* AmplifierSaturationV_LowerSat_i : '<S6>/Amplifier  Saturation (V)'
-                                        */
-  -12.3456,                            /* TransferFcn_A : '<S3>/Transfer Fcn'
-                                        */
-  3.5802,                              /* TransferFcn_C : '<S3>/Transfer Fcn'
                                         */
   4.0,                                 /* StepAmplitude_Gain : '<Root>/Step Amplitude '
                                         */
