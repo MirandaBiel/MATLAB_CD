@@ -44,8 +44,8 @@ fprintf('a = %.4f\n', a);
 % Parte 2 – Projeto do controlador digital baseado em a e b ajustados
 
 % 1. Parâmetros fornecidos
-Mp = 4;       % Sobressinal (%)
-tp = 0.25;    % Tempo de pico (s)
+Mp = 6;       % Sobressinal (%)
+tp = 0.45;    % Tempo de pico (s)
 N = 20;       % Amostras por ciclo
 
 % 2. Cálculo dos parâmetros do sistema de 2ª ordem
@@ -158,3 +158,20 @@ ganho_correcao = referencia / valor_estacionario;
 
 fprintf('\nValor estacionário da saída: %.6f\n', valor_estacionario);
 fprintf('Ganho necessário para correção da saída: %.6f\n', ganho_correcao);
+
+% 16. Gráfico da Ação de Controle para a resposta ao degrau de referência
+% A função de transferência da referência R(z) para a ação de controle U(z)
+% é dada por S_ru(z) = Gc(z) / (1 + Gc(z)Gz(z))
+S_ru = Gc / (1 + Gc*Gz);
+
+% Simula a ação de controle para a entrada de referência constante
+[acao_controle, tempo_controle] = lsim(S_ru, entrada_constante, t);
+
+% Plot da Ação de Controle
+figure;
+plot(tempo_controle, acao_controle, 'r', 'LineWidth', 2);
+title('Ação de Controle para Entrada de Referência = 0.087266');
+xlabel('Tempo (s)');
+ylabel('Sinal de Controle (u)');
+grid on;
+axis tight; % Ajusta os eixos para o conteúdo do gráfico
