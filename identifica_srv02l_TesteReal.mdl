@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.288"
+    ComputedModelVersion    "1.295"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -26,9 +26,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "aluno"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Jun 17 07:10:58 2025"
+  LastModifiedDate	  "Tue Jul 01 07:17:02 2025"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:288>"
+  ModelVersionFormat	  "1.%<AutoIncrement:295>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -962,7 +962,7 @@ Model {
       BlockType		      SubSystem
       Name		      "Controlador"
       Ports		      [1, 1]
-      Position		      [565, 759, 655, 821]
+      Position		      [570, 759, 660, 821]
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
       RTWSystemCode	      "Auto"
@@ -1049,7 +1049,7 @@ Model {
       BlockType		      SubSystem
       Name		      "Controlador1"
       Ports		      [1, 1]
-      Position		      [430, 239, 520, 301]
+      Position		      [490, 244, 580, 306]
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
       RTWSystemCode	      "Auto"
@@ -1059,7 +1059,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Controlador1"
-	Location		[629, 714, 1029, 850]
+	Location		[564, 406, 1003, 653]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1197,7 +1197,7 @@ Model {
       BlockType		      Mux
       Name		      "Mux2"
       Ports		      [2, 1]
-      Position		      [560, 360, 565, 435]
+      Position		      [600, 480, 605, 555]
       ShowName		      off
       Inputs		      "2"
       DisplayOption	      "bar"
@@ -2144,6 +2144,26 @@ Model {
       OutScaling	      "2^0"
     }
     Block {
+      BlockType		      Gain
+      Name		      "Step\nAmplitude1"
+      Position		      [395, 644, 450, 686]
+      Gain		      "2.322412"
+      ParameterDataType	      "sfix(16)"
+      ParameterScaling	      "2^0"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "Step\nAmplitude2"
+      Position		      [350, 254, 405, 296]
+      Gain		      "2.322412"
+      ParameterDataType	      "sfix(16)"
+      ParameterScaling	      "2^0"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
       BlockType		      Sum
       Name		      "Sum"
       Ports		      [2, 1]
@@ -2162,7 +2182,7 @@ Model {
       BlockType		      Sum
       Name		      "Sum1"
       Ports		      [2, 1]
-      Position		      [365, 255, 395, 285]
+      Position		      [430, 260, 460, 290]
       ShowName		      off
       IconShape		      "round"
       Inputs		      "|+-"
@@ -2215,9 +2235,9 @@ Model {
       BlockType		      Scope
       Name		      "Vm (V)1"
       Ports		      [1]
-      Position		      [605, 384, 635, 416]
+      Position		      [645, 504, 675, 536]
       Floating		      off
-      Location		      [1, 52, 1281, 993]
+      Location		      [5, 52, 1285, 993]
       Open		      off
       NumInputPorts	      "1"
       List {
@@ -2235,7 +2255,7 @@ Model {
       BlockType		      Scope
       Name		      "theta_l (rad)"
       Ports		      [1]
-      Position		      [1155, 299, 1185, 331]
+      Position		      [1180, 299, 1210, 331]
       Floating		      off
       Location		      [5, 52, 1285, 993]
       Open		      off
@@ -2365,7 +2385,7 @@ Model {
 	DstPort			1
       }
       Branch {
-	Points			[0, 225; -315, 0]
+	Points			[0, 230; -250, 0]
 	DstBlock		"Sum1"
 	DstPort			2
       }
@@ -2388,15 +2408,14 @@ Model {
     Line {
       SrcBlock		      "Multiport\nSwitch"
       SrcPort		      1
-      Points		      [20, 0]
+      Points		      [25, 0]
       Branch {
-	Points			[10, 0; 0, 40]
+	Points			[5, 0; 0, 40]
 	DstBlock		"Manual Switch 1"
 	DstPort			1
       }
       Branch {
-	Points			[10, 0; 0, -125]
-	DstBlock		"Sum1"
+	DstBlock		"Step\nAmplitude2"
 	DstPort			1
       }
     }
@@ -2409,15 +2428,16 @@ Model {
     Line {
       SrcBlock		      "Manual Switch 1"
       SrcPort		      1
-      Points		      [45, 0]
+      Points		      [40, 0]
       Branch {
-	DstBlock		"Sum"
-	DstPort			1
-      }
-      Branch {
-	Points			[530, 0; 0, -130]
+	Points			[535, 0; 0, -130]
 	DstBlock		"Mux1"
 	DstPort			2
+      }
+      Branch {
+	Points			[0, 170; -90, 0]
+	DstBlock		"Step\nAmplitude1"
+	DstPort			1
       }
     }
     Line {
@@ -2442,13 +2462,13 @@ Model {
     Line {
       SrcBlock		      "Controlador"
       SrcPort		      1
-      Points		      [0, -65; -140, 0; 0, -90]
+      Points		      [25, 0; 0, -65; -170, 0; 0, -90]
       Branch {
 	DstBlock		"SRV02\nModelo Experimental"
 	DstPort			1
       }
       Branch {
-	Points			[0, -220]
+	Points			[0, -100]
 	DstBlock		"Mux2"
 	DstPort			2
       }
@@ -2456,9 +2476,30 @@ Model {
     Line {
       SrcBlock		      "Controlador1"
       SrcPort		      1
-      Points		      [0, -60; -100, 0; 0, -60]
-      DstBlock		      "SRV02"
-      DstPort		      2
+      Points		      [25, 0]
+      Branch {
+	Points			[0, 225]
+	DstBlock		"Mux2"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -55; -160, 0; 0, -70]
+	DstBlock		"SRV02"
+	DstPort			2
+      }
+    }
+    Line {
+      SrcBlock		      "Step\nAmplitude1"
+      SrcPort		      1
+      Points		      [10, 0; 0, 125]
+      DstBlock		      "Sum"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Step\nAmplitude2"
+      SrcPort		      1
+      DstBlock		      "Sum1"
+      DstPort		      1
     }
     Line {
       SrcBlock		      "Sum1"
@@ -2497,28 +2538,28 @@ MatData {
     Data		    "  %)30     .    & $   8    (     @         %    \"     $    !     0         %  0 #0    $    G    ;VQD7V"
     "YA;64      &ES7V1E;&5T960   !O8FIE8W1?8FQO8VL   X    X    !@    @    $          4    (     0    4    !         !  "
     "   %    2$E,+3$    .    ,     8    (    \"0(        %    \"     $    !     0         \"  $       X    X    !@    @"
-    "    &          4    (     0    $    !          D    (         \"2 0T "
+    "    &          4    (     0    $    !          D    (         \"R 34 "
   }
   DataRecord {
     Tag			    DataTag2
     Data		    "  %)30     .    & $   8    (     @         %    \"     $    !     0         %  0 #0    $    G    ;VQD7V"
     "YA;64      &ES7V1E;&5T960   !O8FIE8W1?8FQO8VL   X    X    !@    @    $          4    (     0    4    !         !  "
     "   %    2$E,+3$    .    ,     8    (    \"0(        %    \"     $    !     0         \"  $       X    X    !@    @"
-    "    &          4    (     0    $    !          D    (         \"2 0T "
+    "    &          4    (     0    $    !          D    (         \"R 34 "
   }
   DataRecord {
     Tag			    DataTag1
     Data		    "  %)30     .    & $   8    (     @         %    \"     $    !     0         %  0 #0    $    G    ;VQD7V"
     "YA;64      &ES7V1E;&5T960   !O8FIE8W1?8FQO8VL   X    X    !@    @    $          4    (     0    4    !         !  "
     "   %    2$E,+3$    .    ,     8    (    \"0(        %    \"     $    !     0         \"  $       X    X    !@    @"
-    "    &          4    (     0    $    !          D    (         \"2 0T "
+    "    &          4    (     0    $    !          D    (         \"R 34 "
   }
   DataRecord {
     Tag			    DataTag0
     Data		    "  %)30     .    6,    8    (     @         %    \"     $    !     0         %  0 $0    $   !F    :7-?=6"
     "YI<75E          !O;&1?8FQO8VL          &]L9%]N86UE            :7-?;6]D96Q?8VQO<VEN9P!I<U]D96QE=&5D         '-E='1I"
     ";F=S               .    ,     8    (    \"0(        %    \"     $    !     0         \"  $  0    X    X    !@    @"
-    "    &          4    (     0    $    !          D    (         \"2 0T .    .     8    (    !          %    \"     $"
+    "    &          4    (     0    $    !          D    (         \"R 34 .    .     8    (    !          %    \"     $"
     "    %     0         0    !0   $A)3\"TQ    #@   #     &    \"     D\"        !0    @    !     0    $          @ !  "
     "     .    ,     8    (    \"0(        %    \"     $    !     0         \"  $       X   \"(O@  !@    @    \"       "
     "   4    (     0    $    !          4 !  /     0   &D   !O;&1?8F]A<F1?='EP90!Q.                 !Q-                "

@@ -1,22 +1,25 @@
 %% Parte 1 – Ajuste do modelo sem atraso variável
 load('variaveis.mat')
+load('teste_dia1.mat')
 
 % Extração dos dados
 tempo = wl(:, 1);        % Tempo
 w_medido = wl(:, 2);     % Valores medidos (segunda coluna)
 
-% Função de resposta teórica sem atraso variável (apenas [b, a])
-modelo = @(params, t) (4 * params(1) / params(2)) .* ...
-                      (1 - exp(-params(2) * max(0, t - 0.5)));
-
-modelo_vect = @(params, t) arrayfun(@(ti) modelo(params, ti), t);
+% Função vetorizada de resposta teórica sem atraso variável ([b, a])
+modelo_vect = @(params, t) (4 * params(1) / params(2)) .* ...
+                           (1 - exp(-params(2) * max(0, t - 0.5)));
 
 % Estimativas iniciais [b, a]
 params_iniciais = [4, 15];
 
-% Ajuste com lsqcurvefit
-opcoes = optimoptions('lsqcurvefit', 'Display', 'iter');
-[param_otim, trash] = lsqcurvefit(modelo_vect, params_iniciais, tempo, w_medido, [], [], opcoes);
+% Limites inferiores e superiores
+lb = [0, 0];
+ub = [Inf, Inf];
+
+% Ajuste com lsqcurvefit (usando optimset)
+opcoes = optimset('Display', 'iter');
+[param_otim, grbg] = lsqcurvefit(modelo_vect, params_iniciais, tempo, w_medido, lb, ub, opcoes);
 
 % Parâmetros ajustados
 b = param_otim(1);
@@ -38,7 +41,7 @@ fprintf('Parâmetros otimizados:\n');
 fprintf('b = %.4f\n', b);
 fprintf('a = %.4f\n', a);
 
-%% Parte 2 – Projeto do controlador digital baseado em a e b ajustados
+% Parte 2 – Projeto do controlador digital baseado em a e b ajustados
 
 % 1. Parâmetros fornecidos
 Mp = 4;       % Sobressinal (%)
@@ -53,7 +56,7 @@ sigma = zeta * wn;
 
 % 3. Tempo de amostragem
 T = 2*pi / (N * wd);
-st = T;
+st = T
 
 % 4. Polos desejados no plano z
 s_d = -sigma + 1j*wd;
@@ -105,7 +108,7 @@ K_control = den_eval / num_eval;
 
 % 10. Controlador digital Gc(z)
 z_tf = tf('z', T);
-Gc = K_control * (z_tf - z_c) / (z_tf - p_c);
+Gc = K_control * (z_tf - z_c) / (z_tf - p_c)
 
 % 11. Sistema em malha fechada
 T_total = feedback(Gc*Gz, 1);
